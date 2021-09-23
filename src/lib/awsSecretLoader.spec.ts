@@ -25,3 +25,17 @@ test('load secrets test', async (t) => {
   t.deepEqual(env.TRUE_VALUE, 'true');
   t.deepEqual(env.FALSE_VALUE, 'false');
 });
+
+test('load secrets test without secretString', async (t) => {
+  setSecretManagerClientClass(function () {
+    return {
+      send: async (): Promise<GetSecretValueResponse> => ({}),
+    };
+  } as any);
+
+  await awsSecretLoader({
+    SecretId: '123',
+  });
+
+  t.deepEqual('IPSUM', 'IPSUM');
+});
