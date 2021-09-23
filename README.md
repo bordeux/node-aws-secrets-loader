@@ -2,7 +2,7 @@
 
 Tool to automatically load AWS secret to environment variable
 
-
+[Docs Github Pages](https://bordeux.github.io/node-aws-secrets-loader/)
 
  ### Example (es module)
 ```js
@@ -14,4 +14,4 @@ await awsSecretLoader({ SecretId: "someSecret" })
 ```js
 const { awsSecretLoader } = require('@bordeux/node-aws-secrets-loader');
 await awsSecretLoader({ SecretId: "someSecret" })
-* ```
+```
