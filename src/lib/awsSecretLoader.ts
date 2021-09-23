@@ -4,7 +4,6 @@ import {
   SecretsManagerClientConfig,
 } from '@aws-sdk/client-secrets-manager';
 
-import { normalizeValue } from './normalizeValue';
 import { getSecretManagerClient } from './secretManagerClient';
 
 /**
@@ -33,8 +32,8 @@ export const awsSecretLoader = async (
   const client = getSecretManagerClient(config);
   const secretResponse = await client.send(new GetSecretValueCommand(params));
   const secrets = JSON.parse(secretResponse.SecretString || '{}');
-
+  const env: any = process.env;
   for (const key of Object.keys(secrets)) {
-    process.env[key] = normalizeValue(String(secrets[key])) as string;
+    env[key] = String(secrets[key]);
   }
 };
