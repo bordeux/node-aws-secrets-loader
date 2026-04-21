@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.1](https://github.com/bordeux/node-aws-secrets-loader/compare/v2.0.0...v2.0.1) (2026-04-21)
+
+
+### Bug Fixes
+
+* **ci:** remove broken npm global upgrade step ([8ef2bcd](https://github.com/bordeux/node-aws-secrets-loader/commit/8ef2bcd1fc3f83eeb8abd569847e28684ce310d7))
+* **ci:** remove broken npm global upgrade step ([4bb4d3c](https://github.com/bordeux/node-aws-secrets-loader/commit/4bb4d3c12264931940e1ad2c28617414a79f6225))
+
 ## [2.0.0](https://github.com/bordeux/node-aws-secrets-loader/compare/v1.0.1...v2.0.0) (2026-04-21)
 
 
