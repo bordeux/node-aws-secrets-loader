@@ -1,41 +1,45 @@
-import { GetSecretValueResponse } from '@aws-sdk/client-secrets-manager';
-import test from 'ava';
+import type { GetSecretValueResponse } from '@aws-sdk/client-secrets-manager';
+import { describe, expect, it } from 'vitest';
 
 import { awsSecretLoader } from './awsSecretLoader';
 import { setSecretManagerClientClass } from './secretManagerClient';
 
-test('load secrets test', async (t) => {
-  setSecretManagerClientClass(function () {
-    return {
-      send: async (): Promise<GetSecretValueResponse> => ({
-        SecretString: JSON.stringify({
-          STRING_VALUE: 'IPSUM',
-          TRUE_VALUE: 'true',
-          FALSE_VALUE: 'false',
+describe('awsSecretLoader', () => {
+  it('should load secrets into environment variables', async () => {
+    // biome-ignore lint/complexity/useArrowFunction: must be constructable with `new`
+    setSecretManagerClientClass(function () {
+      return {
+        send: async (): Promise<GetSecretValueResponse> => ({
+          SecretString: JSON.stringify({
+            STRING_VALUE: 'IPSUM',
+            TRUE_VALUE: 'true',
+            FALSE_VALUE: 'false',
+          }),
         }),
-      }),
-    };
-  } as any);
+      };
+    } as any);
 
-  await awsSecretLoader({
-    SecretId: '123',
-  });
-  const env = process.env as any;
-  t.deepEqual(env.STRING_VALUE, 'IPSUM');
-  t.deepEqual(env.TRUE_VALUE, 'true');
-  t.deepEqual(env.FALSE_VALUE, 'false');
-});
+    await awsSecretLoader({
+      SecretId: '123',
+    });
 
-test('load secrets test without secretString', async (t) => {
-  setSecretManagerClientClass(function () {
-    return {
-      send: async (): Promise<GetSecretValueResponse> => ({}),
-    };
-  } as any);
-
-  await awsSecretLoader({
-    SecretId: '123',
+    expect(process.env.STRING_VALUE).toBe('IPSUM');
+    expect(process.env.TRUE_VALUE).toBe('true');
+    expect(process.env.FALSE_VALUE).toBe('false');
   });
 
-  t.deepEqual('IPSUM', 'IPSUM');
+  it('should handle missing SecretString gracefully', async () => {
+    // biome-ignore lint/complexity/useArrowFunction: must be constructable with `new`
+    setSecretManagerClientClass(function () {
+      return {
+        send: async (): Promise<GetSecretValueResponse> => ({}),
+      };
+    } as any);
+
+    await awsSecretLoader({
+      SecretId: '123',
+    });
+
+    expect('IPSUM').toBe('IPSUM');
+  });
 });

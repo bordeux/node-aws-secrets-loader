@@ -1,7 +1,7 @@
 import {
   GetSecretValueCommand,
-  GetSecretValueCommandInput,
-  SecretsManagerClientConfig,
+  type GetSecretValueCommandInput,
+  type SecretsManagerClientConfig,
 } from '@aws-sdk/client-secrets-manager';
 
 import { getSecretManagerClient } from './secretManagerClient';
@@ -27,7 +27,7 @@ import { getSecretManagerClient } from './secretManagerClient';
  */
 export const awsSecretLoader = async (
   params: GetSecretValueCommandInput,
-  config: SecretsManagerClientConfig = {}
+  config: SecretsManagerClientConfig = {},
 ): Promise<void> => {
   const client = getSecretManagerClient(config);
   const secretResponse = await client.send(new GetSecretValueCommand(params));
