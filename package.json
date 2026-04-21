@@ -1,6 +1,6 @@
 {
   "name": "@bordeux/node-aws-secrets-loader",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Tool to automatically load AWS secret to environment variable",
   "main": "build/index.cjs",
   "module": "build/index.js",
